@@ -1,6 +1,6 @@
 var botonEncriptar = document.querySelector('.btn-encriptar');
 var botonDesencriptar = document.querySelector('.btn-desencriptar');
-var munieco = document.querySelector('.munieco');
+var munieco = document.querySelector('.contenedor-munieco');
 var contenedor = document.querySelector('.contenedor-parrafo');
 var resultado = document.querySelector('.texto-resultado');
 
@@ -9,19 +9,23 @@ botonDesencriptar.onclick = desencriptar;
 
 function encriptar(){
     ocultarAdelante();
-    var cajaTexto = recuperarTexto()
-    resultado.textContent = encriptarTexto(cajaTexto);
+    var cajatexto = recuperarTexto()
+    var textoEncriptado = encriptarTexto(cajatexto);
+    resultado.textContent = textoEncriptado;
+    document.querySelector('.btn-copiar').removeAttribute('hidden');
 }
 
 function desencriptar(){
     ocultarAdelante();
     var cajatexto = recuperarTexto()
-    resultado.textContent = desencriptarTexto(cajaTexto);
+    var textoDesencriptado = desencriptarTexto(cajatexto);
+    resultado.textContent = textoDesencriptado;
+    document.querySelector('.btn-copiar').setAttribute('hidden', 'true');
 }
 
 function recuperarTexto(){
-    var cajaTexto = document.querySelector(".caja-texto")
-    return caja-texto.value
+    var cajatexto = document.querySelector(".cajatexto")
+    return cajatexto.value
 }
 
 function ocultarAdelante(){
@@ -33,7 +37,7 @@ function encriptarTexto(mensaje){
     var texto = mensaje;
     var textoFinal = "";
 
-    for(var i = 0; 1 < texto.length; i++){
+    for(var i = 0; i < texto.length; i++){
         if(texto[i] == "a"){
             textoFinal = textoFinal + "ai"
         }
@@ -44,7 +48,7 @@ function encriptarTexto(mensaje){
             textoFinal = textoFinal + "imes"
         }
         else if(texto[i] == "o"){
-            textoFinal == textoFinal + "ober"
+            textoFinal = textoFinal + "ober"
         }
         else if(texto[i] == "u"){
             textoFinal = textoFinal + "ufat"
@@ -65,32 +69,42 @@ function desencriptarTexto(mensaje){
             textoFinal = textoFinal + "a"
             i = i+1;
         }
+
         else if(texto[i] == "e"){
             textoFinal = textoFinal + "e"
             i = i+4;
         }
+
         else if(texto[i] == "i"){
             textoFinal = textoFinal + "i"
             i = i+3;
         }
+
         else if(texto[i] == "o"){
             textoFinal = textoFinal + "o"
             i = i+3;
         }
+
         else if(texto[i] == "u"){
             textoFinal = textoFinal + "u"
             i = i+3;
         }
+
         else{
             textoFinal = textoFinal + texto[i];
         }
     }
-    return textoFinal
+    return textoFinal;
+
 }
 
-const btnCopiar = document.querySelector(".btn-copiar");
-    btnCopiar.addEventListener("click", copiar = () => {
-        var contenido = document.querySelector(".texto-resultado").textContent;
-        navigator.clipboard.writeText(contenido);
-        console.log("Hola");
+document.querySelector(".btn-copiar").addEventListener("click", function() {
+var contenido = resultado.textContent;
+navigator.clipboard.writeText(contenido)
+    .then(() => {
+        alert("Texto copiado al portapapeles");
     })
+    .catch((error) => {
+        console.error("Error al copiar el texto: ", error);
+    });
+});
